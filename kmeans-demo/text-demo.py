@@ -3,10 +3,8 @@
 # License: BSD 3 clause
 
 from __future__ import print_function
-
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.pipeline import make_pipeline
 from sklearn import metrics
 from sklearn.cluster import KMeans
 
@@ -17,10 +15,7 @@ import numpy as np
 
 ########## Display progress logs on stdout ###############################
 logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s %(levelname)s %(message)s')
-
-def is_interactive():
-    return not hasattr(sys.modules['__main__'], '__file__')
+  format='%(asctime)s %(levelname)s %(message)s')
 
 ######### Load some categories from the training set ######################
 categories = ['alt.atheism', 'talk.religion.misc',
@@ -30,7 +25,7 @@ print("Loading 20 newsgroups dataset for categories:")
 print(categories)
 
 dataset = fetch_20newsgroups(subset='all', categories=categories,
-                             shuffle=True, random_state=42)
+  shuffle=True, random_state=42)
 
 print("%d documents" % len(dataset.data))
 print("%d categories" % len(dataset.target_names))
@@ -43,7 +38,7 @@ print("Extracting features from the training dataset using a sparse vectorizer")
 t0 = time()
 
 vectorizer = TfidfVectorizer(max_df=0.5, max_features=10000,
-  min_df=2, stop_words='english', use_idf="true")
+  min_df=2, stop_words='english', use_idf=1)
 
 X = vectorizer.fit_transform(dataset.data)
 
@@ -53,7 +48,7 @@ print()
 
 ########### Do the actual clustering ############################
 km = KMeans(n_clusters=true_k, init='k-means++', 
-  max_iter=100, n_init=1, verbose="true"
+  max_iter=100, n_init=1, verbose=1
 )
 
 print("Clustering sparse data with %s" % km)
