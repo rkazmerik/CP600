@@ -37,7 +37,7 @@ true_k = np.unique(labels).shape[0]
 print("Extracting features from the training dataset using a sparse vectorizer")
 t0 = time()
 
-vectorizer = TfidfVectorizer(max_df=0.5, max_features=10000,
+vectorizer = TfidfVectorizer(max_df=0.5, max_features=100,
   min_df=2, stop_words='english', use_idf=1)
 
 X = vectorizer.fit_transform(dataset.data)
