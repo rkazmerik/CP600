@@ -98,3 +98,5 @@ def splitDataset():
         clicker+=1
         if (clicker % 100) == 0:
           print("Generating tweet sets...")
+
+#splitDataset()
