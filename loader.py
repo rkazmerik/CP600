@@ -4,7 +4,7 @@ import json
 
 ### Return an array of tweets #######################################
 def getDataset(indexName, noItems):
-  es = Elasticsearch()
+  es = Elasticsearch(timeout=60)
   results = []
 
   tweets = es.search(
@@ -26,16 +26,13 @@ def getDataset(indexName, noItems):
 
 ### Split the main trump index into two smaller indexes ##############
 def splitDataset():
-  es = Elasticsearch()
-
-  #Delete the data set indexes before loading them
-  es.indices.delete(index='140set', ignore=[400, 404])
-  es.indices.delete(index='280set', ignore=[400, 404])
+  es = Elasticsearch(timeout=60)
 
   #Find all the tweets from the trump index
   authors = es.search(
       index="trump",
-      size=10000,
+      size=100000,
+      from_=0,
       _source_include="user",
       body={
           "query": {
@@ -64,7 +61,7 @@ def splitDataset():
       )
 
       count = tweets['hits']['total']
-      if count >= 2:
+      if count >= 6:
         
         #Create two different tweets
         t1 = tweets['hits']['hits'][0]
@@ -72,26 +69,26 @@ def splitDataset():
 
         #Insert tweet 1 into the 140set index
         op1 = es.create(
-          id=t1['_id']+str(datetime.now()),
+          id=t1['_id'],
           index="140set",
           doc_type="doc",
           body={ 
             'author': t1['_source']['user'], 
             'message': t1['_source']['message']
           },
-          ignore=[403]
+          ignore=[403, 409]
         )
 
         #Insert tweet 2 (including the message of t1) into the 280set index
         op2 = es.create(
-          id=t2['_id']+str(datetime.now()),
+          id=t2['_id'],
           index="280set",
           doc_type="doc",
           body={ 
             'author': t2['_source']['user'], 
             'message': t1['_source']['message']+' '+t2['_source']['message']
           },
-          ignore=[403]
+          ignore=[403, 409]
         )
 
         #Every 100 tweets generated, print a message
