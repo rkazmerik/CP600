@@ -1,6 +1,5 @@
 # CP600 - Practical Algorithm Design
 
-
 ## Features (k=4)
 No.     Inertia     Sil Coef.      CH Index
 5        8900.92    0.850          57009.86

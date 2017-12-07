@@ -3,7 +3,6 @@ from __future__ import print_function
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn import metrics
-import json
 import loader
 
 ### Get the tweet data sets from Elastic Search ######################
@@ -27,13 +26,6 @@ idf1 = vectorizer.idf_
 
 t2 = vectorizer.fit_transform(tweetSet2)
 idf2 = vectorizer.idf_
-
-#print("140set Features: ")
-#print(json.dumps(dict(zip(vectorizer.get_feature_names(), idf1)), indent=4, sort_keys=True))
-
-#print("280set Features: ")
-#print(json.dumps(dict(zip(vectorizer.get_feature_names(), idf2)), indent=4, sort_keys=True))
-#print()
 
 
 ### Run the kMeans clustering ######################################
