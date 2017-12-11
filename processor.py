@@ -15,7 +15,7 @@ print()
 
 
 ### Load the datasets into the TF-IDF vectorizer #####################
-noFeatures = 5
+noFeatures = 100
 print("No. Features: " + str(noFeatures))
 
 vectorizer = TfidfVectorizer(max_df=0.5, max_features=noFeatures,
@@ -29,7 +29,7 @@ idf2 = vectorizer.idf_
 
 
 ### Run the kMeans clustering ######################################
-noClusters=20
+noClusters=6
 print("No. Clusters: " + str(noClusters))
 
 km = KMeans(n_clusters=noClusters, init='k-means++', max_iter=50, n_init=1)
@@ -41,27 +41,11 @@ print("Intertia = " + str(km.inertia_))
 print("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(t1, km.labels_, sample_size=1000))
 print("Calinski-Harabaz Index: %0.3f" % metrics.calinski_harabaz_score(t1.toarray(), km.labels_))
 
-#order_centroids = km.cluster_centers_.argsort()[:, ::-1]
-#terms = vectorizer.get_feature_names()
-#for i in range(noClusters):
-#    print("Cluster %d:" % i, end='')
-#    for ind in order_centroids[i, :10]:
-#        print(' %s' % terms[ind], end='')
-#    print()
-
 km.fit(t2)
 print()
 print("280set RESULTS: ")
 print("Intertia = " + str(km.inertia_))
 print("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(t2, km.labels_, sample_size=1000))
 print("Calinski-Harabaz Index: %0.3f" % metrics.calinski_harabaz_score(t2.toarray(), km.labels_))
-
-#order_centroids = km.cluster_centers_.argsort()[:, ::-1]
-#terms = vectorizer.get_feature_names()
-#for i in range(noClusters):
-#    print("Cluster %d:" % i, end='')
-#    for ind in order_centroids[i, :10]:
-#        print(' %s' % terms[ind], end='')
-#    print()
 
 print()
